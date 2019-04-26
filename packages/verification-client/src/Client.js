@@ -58,12 +58,14 @@ export default class Client {
   /**
    * Verifies a file hash on the smart contract
    * @param {string} hash
-   * @return {null || {issuer: string,
-   *                   expiry: number,
-   *                   revoked: boolean,
-   *                   issuerVerified: boolean,
-   *                   issuerName: false,
-   *                   issuerImg: boolean}}
+   * @return {{
+   *   issuer: string,
+   *   expiry: number,
+   *   revoked: boolean,
+   *   issuerVerified: boolean,
+   *   issuerName: false,
+   *   issuerImg: boolean
+   * }}
    */
   async verifyFile (hash) {
     const contract = await this.getContract()
