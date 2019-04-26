@@ -20,6 +20,17 @@
  * SOFTWARE.
  */
 
+/**
+ * A file verification object from the smart contract
+ * @typedef {Object} FileVerification
+ * @property {string} issuer
+ * @property {number} expiry
+ * @property {boolean} revoked
+ * @property {boolean} issuerVerified
+ * @property {string} issuerName
+ * @property {string} issuerImg
+ */
+
 import Web3 from 'web3'
 import SmartContractABI from './SmartContract.abi'
 
@@ -50,22 +61,15 @@ export default class Client {
    */
   async getContract () {
     return this._contract || (this._contract = await this.web3.eth.Contract(
-      SmartContractABI,
-      this.contractAddress)
+        SmartContractABI,
+        this.contractAddress)
     )
   }
 
   /**
    * Verifies a file hash on the smart contract
    * @param {string} hash
-   * @return {{
-   *   issuer: string,
-   *   expiry: number,
-   *   revoked: boolean,
-   *   issuerVerified: boolean,
-   *   issuerName: false,
-   *   issuerImg: boolean
-   * }}
+   * @return {FileVerification}
    */
   async verifyFile (hash) {
     const contract = await this.getContract()
