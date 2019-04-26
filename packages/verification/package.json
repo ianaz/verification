@@ -1,4 +1,16 @@
 {
   "name": "@blockfactory-ag/verification",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "description": "The verification tool of certifaction.io verifies the authenticity of documents against an Ethereum smart contract.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blockfactory-ag/verification.git"
+  },
+  "author": "David Matter <david.matter@blockfactory.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blockfactory-ag/verification/issues"
+  },
+  "homepage": "https://github.com/blockfactory-ag/verification#readme"
 }
