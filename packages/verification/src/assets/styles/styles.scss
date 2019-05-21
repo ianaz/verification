@@ -1,0 +1,28 @@
+@import "variables";
+@import "./components/Verification";
+@import "./components/VerificationDropBox";
+@import "./components/VerificationItem";
+@import "./components/VerificationShadowItem";
+
+$mdi-font-path: "~@mdi/font/fonts";
+@import "~@mdi/font/scss/materialdesignicons.scss";
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $headings-font-family;
+}
+
+body {
+  font-family: $body-font-family;
+  color: $body-color;
+}
+
+.btn {
+
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  font-size: $font-size-small;
+  padding: 0;
+}

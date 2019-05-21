@@ -1,0 +1,34 @@
+
+.verification-item {
+  margin: 0 auto;
+  margin-top: $spacer * 2;
+  box-shadow: $box-shadow-standard;
+  width: 500px;
+
+  .item-header {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid $border-color;
+    padding: $spacer $spacer * 2;
+  }
+
+  .item-body {
+    padding: $spacer $spacer * 2;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .item-footer {
+    padding: $spacer $spacer * 2;
+  }
+
+  .icon {
+    font-size: 30px;
+    padding-right: $spacer;
+  }
+
+  h3 {
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: $font-size-small;
+  }
+}

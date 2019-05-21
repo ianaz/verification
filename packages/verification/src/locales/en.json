@@ -1,0 +1,45 @@
+{
+  "verification": {
+    "box": {
+      "label1": "Your documents won't be uploaded or saved.",
+      "label2": "Drag & drop or click to select a PDF document from your device."
+    },
+    "demo": {
+      "clickToVerify": "Click to verify",
+      "doc1Filename": "Demo_Document.pdf",
+      "doc1Issuer": "BlockFactory Academy",
+      "docUnverifiedFilename": "Demo_Document_Uncertified.pdf",
+      "title": "Demo documents"
+    },
+    "result": {
+      "title": "Verification result",
+      "expertInfo": {
+        "hide": "Hide expert info",
+        "show": "Show expert info"
+      },
+      "issuer": "Issuer",
+      "meta": {
+        "contract": "Contract",
+        "fingerprint": "File Hash Value",
+        "registrationDate": "Registration date",
+        "registrationTransaction": "Registration transaction",
+        "revocationTransaction": "Revocation transaction"
+      },
+      "notFound": {
+        "status": "File could not be verified",
+        "message": "Your document could not be verified. This is not proof that it has been forged. The file might have been altered unintentionally or there could be a technical problem. Try again in a few minutes or contact the issuer."
+      },
+      "revoked": {
+        "status": "This file has been revoked and is no longer valid",
+        "message": "This document was originally registered by the issuer below and has since been revoked. It may or may not have been replaced by a newer version. Please contact the issuer for further information."
+      },
+      "selfDeclared": {
+        "status": "File was registered but the issuer is not verified by certifaction",
+        "message": "Caution: this issuer identity has not been verified by certifaction. It is a self-declared identity. If you are not sure about this file's authenticity, please contact the issuer."
+      },
+      "verified": {
+        "status": "This file was certified by a trusted issuer."
+      }
+    }
+  }
+}

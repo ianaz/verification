@@ -1,0 +1,38 @@
+
+.verification-box {
+  border: $verification-box-border;
+  max-width: 600px;
+  height: 300px;
+  margin: 0 auto;
+  position: relative;
+
+  .input-file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+  }
+
+  .labels {
+    width: 100%;
+    height: 400px;
+    .label {
+      width: 100%;
+      text-align: center;
+    }
+    .title {
+      font-size: $font-size-h1;
+      font-family: $headings-font-family;
+      padding-top: 20%;
+      color: $verification-box-title-color;
+    }
+    .subtitle {
+      font-size: $font-size-h2;
+      font-family: $headings-font-family;
+      color: $verification-box-subtitle-color;
+    }
+  }
+}

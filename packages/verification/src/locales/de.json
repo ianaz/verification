@@ -1,0 +1,45 @@
+{
+  "verification": {
+    "box": {
+      "label1": "Ziehen Sie ein PDF in dieses Feld oder klicken Sie, um ein PDF von Ihrem Gerät auszuwählen.",
+      "label2": "Ihre Dokumente werden nicht hochgeladen oder gespeichert."
+    },
+    "demo": {
+      "clickToVerify": "Klicken zum Verifizieren",
+      "doc1Filename": "Demo_Dokument.pdf",
+      "doc1Issuer": "BlockFactory-Akademie",
+      "docUnverifiedFilename": "Demo_Dokument_Unzertifiziert.pdf",
+      "title": "Demo-Dokumente"
+    },
+    "result": {
+      "expertInfo": {
+        "hide": "Experten-Info ausblenden",
+        "show": "Experten-Info anzeigen"
+      },
+      "issuer": "Aussteller",
+      "meta": {
+        "contract": "Contract",
+        "fingerprint": "Datei-Hashwert",
+        "registrationDate": "Ausstellungsdatum",
+        "registrationTransaction": "Ausstellungstransaktion",
+        "revocationTransaction": "Annullierungstransaktion"
+      },
+      "notFound": {
+        "message": "Dieses Dokument konnte nicht verifiziert werden. Vielleicht wurde die Datei unabsichtlich verändert oder es liegt ein technisches Problem vor. Bitte versuchen Sie es später nochmal oder kontaktieren Sie den Aussteller.",
+        "status": "Datei konnte nicht verifiziert werden"
+      },
+      "revoked": {
+        "message": "Dieses Dokument wurde tatsächlich vom untengenannten Aussteller eingetragen, ist aber inzwischen widerrufen worden. Möglicherweise ist es durch eine neuere Version ersetzt worden. Für weitere Informationen wenden Sie sich bitte an den Aussteller.",
+        "status": "Dieses Dokument wurde widerrufen und ist nicht mehr gültig"
+      },
+      "selfDeclared": {
+        "message": "Vorsicht: dieser Aussteller wurde nicht durch certifaction überprüft. Es handelt sich um eine selbstdeklarierte Identität. Sollten Sie Zweifel haben, dass es sich tatsächlich um die genannte Organisation handelt, wenden Sie sich bitte direkt an diese.",
+        "status": "Datei ist authentisch, aber Aussteller ist nicht durch certifaction verifiziert"
+      },
+      "title": "Verifizierungsresultat",
+      "verified": {
+        "status": "Diese Datei wurde durch einen vertrauenswürdigen Aussteller zertifiziert."
+      }
+    }
+  }
+}
