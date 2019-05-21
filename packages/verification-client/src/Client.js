@@ -49,20 +49,12 @@ export default class Client {
     } else if (this.providerUrl.startsWith('http')) {
       this.provider = new Web3.providers.HttpProvider(this.providerUrl)
     }
-    this.contractAddress = contractAddress
-    this._contract = undefined
-    this.web3 = new Web3(this.provider, this.address)
-  }
 
-  /**
-   * Returns a web3 Ethereum Contract object
-   *
-   * @return {web3.eth.Contract}
-   */
-  async getContract () {
-    return this._contract || (this._contract = await this.web3.eth.Contract(
-        SmartContractABI,
-        this.contractAddress)
+    this.contractAddress = contractAddress
+    this.web3 = new Web3(this.provider, this.contractAddress)
+    this.contract = this.web3.eth.Contract(
+      SmartContractABI,
+      this.contractAddress,
     )
   }
 
@@ -72,17 +64,97 @@ export default class Client {
    * @return {FileVerification}
    */
   async verifyFile (hash) {
-    const contract = await this.getContract()
-
     return new Promise((resolve, reject) => {
-      contract.methods.verifyFile(hash).call({}, (err, result) => {
+      this.contract.methods.verifyFile(hash).call({}, function (err, res) {
         if (err) {
           reject(err)
         } else {
-          resolve(result)
+          console.log(res)
+          let {
+            issuer,
+            issuerName,
+            issuerImg,
+            issuerVerified,
+            revoked,
+            expiry,
+          } = res
+
+          // Let's nullify all empty hex strings for beauty
+          const nullValue40 = '0x0000000000000000000000000000000000000000'
+          const nullValue64 = '0x0000000000000000000000000000000000000000000000000000000000000000'
+          issuer = issuer === nullValue40 ? null : issuer
+          issuerName = issuerName === nullValue64 ? null : issuerName
+          issuerImg = issuerImg === nullValue64 ? null : issuerImg
+          expiry = expiry._hex === '0x00' ? null : expiry._hex
+
+          resolve({
+            issuer,
+            issuerName,
+            issuerImg,
+            issuerVerified,
+            revoked,
+            expiry,
+          })
         }
       })
     })
+  }
+
+  /**
+   * Returns information about the transaction that registered the credential
+   *
+   * @param {string} fileHash
+   * @return {Promise<void>}
+   */
+  async getRegistrationEvent (fileHash) {
+    const arrEvents = await this.contract.getPastEvents(
+      'FileRegisteredEvent', {
+        filter: {hash: fileHash},
+        fromBlock: 0,
+      })
+    console.log(arrEvents)
+    return arrEvents[0] || null
+  }
+
+  /**
+   * Returns information about the transaction that registered the credential
+   *
+   * @param {string} fileHash
+   * @return {Promise<void>}
+   */
+  async getRevocationEvent (fileHash) {
+    let arrEvents = await this.contract.getPastEvents(
+      'FileRevokedEvent', {
+        filter: {hash: fileHash},
+        fromBlock: 0,
+      })
+    return arrEvents[0] || null
+  }
+
+  /**
+   * Returns the block that contains the tx that registered the given file hash
+   *
+   * @param fileHash
+   * @return {Promise<*>}
+   */
+  async getRegistrationTxBlock (fileHash) {
+    let event = await this.getRegistrationEvent(fileHash)
+    return await this.getBlock(event.blockHash)
+  }
+
+  /**
+   * Returns the block that contains the tx that revoked the given file hash
+   *
+   * @param fileHash
+   * @return {Promise<*>}
+   */
+  async getRevocationTxBlock (fileHash) {
+    let event = await this.getRevocationEvent(fileHash)
+    return await this.getBlock(event.blockHash)
+  }
+
+  async getBlock (blockHash) {
+    return await this.web3.eth.getBlock(blockHash)
   }
 
   /**

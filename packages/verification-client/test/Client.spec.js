@@ -31,13 +31,14 @@ describe('Client', function () {
     const res = await client.verifyFile(
       '0x0054f251825dcda879ab6f3dd1e3dd134db01c1a9d1b733775c956b7f179bd0b')
     expect(res).toHaveProperty('issuer')
+    expect(res.issuer).not.toBe(null)
     done()
   })
 
-  it('should return null for an unregistered hash', async function (done) {
+  it('should return nullified object for an unregistered hash', async function (done) {
     const res = await client.verifyFile(
       '0xde9b4cf10e72330f5926b26398ba5ffb63b8640407ba30370f21740e16a4484d')
-    expect(res.issuer).toBe('0x0000000000000000000000000000000000000000')
+    expect(res.issuer).toBe(null)
     done()
   })
 
