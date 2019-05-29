@@ -21,7 +21,9 @@
   -->
 
 <template>
-<component :is="verificationItemType" :verificationItem="verificationItem"></component>
+<div class="item-container">
+  <component :is="verificationItemType" :verificationItem="verificationItem"></component>
+</div>
 </template>
 
 <script>

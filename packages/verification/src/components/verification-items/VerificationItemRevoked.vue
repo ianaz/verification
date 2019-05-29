@@ -23,7 +23,7 @@
 <template>
 <layout-verification-item :verificationItem="verificationItem">
   <template #icon>
-  <i class="mdi mdi-shield-remove"></i>
+  <i class="mdi mdi-shield-remove icon-revoked"></i>
   </template>
   <template #title>{{ $t('verification.result.revoked.status') }}</template>
   <template #description>{{ $t('verification.result.revoked.message') }}</template>

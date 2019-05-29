@@ -33,7 +33,7 @@
         "status": "Dieses Dokument wurde widerrufen und ist nicht mehr gültig"
       },
       "selfDeclared": {
-        "message": "Vorsicht: dieser Aussteller wurde nicht durch certifaction überprüft. Es handelt sich um eine selbstdeklarierte Identität. Sollten Sie Zweifel haben, dass es sich tatsächlich um die genannte Organisation handelt, wenden Sie sich bitte direkt an diese.",
+        "message": "<strong>Vorsicht:</strong> Dieser Aussteller wurde nicht durch certifaction überprüft. Es handelt sich um eine selbstdeklarierte Identität. Sollten Sie Zweifel haben, dass es sich tatsächlich um die genannte Organisation handelt, wenden Sie sich bitte direkt an diese.",
         "status": "Datei ist authentisch, aber Aussteller ist nicht durch certifaction verifiziert"
       },
       "title": "Verifizierungsresultat",

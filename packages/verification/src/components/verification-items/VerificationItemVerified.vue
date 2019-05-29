@@ -26,7 +26,6 @@
   <i class="mdi mdi-shield-check"></i>
   </template>
   <template #title>{{ $t('verification.result.verified.status') }}</template>
-  <template #description>{{ $t('verification.result.verified.message') }}</template>
 </layout-verification-item>
 </template>
 

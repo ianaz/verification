@@ -4,6 +4,7 @@ module.exports = {
   outputDir: path.resolve(__dirname, 'dist'),
   runtimeCompiler: true,
   productionSourceMap: false,
+  parallel: false,
   pages: {
     main: {
       entry: 'src/main.js',
@@ -17,7 +18,7 @@ module.exports = {
       .test(/\.worker\.js$/)
       .use('worker-loader')
       .loader('worker-loader')
-      .options({inline: true, name: 'hallo.[hash].js'})
+      .options({inline: true, name: 'worker.[hash].js'})
       .end();
     config.module.rule('wasms')
       .test(/\.wasm$/)
@@ -25,10 +26,13 @@ module.exports = {
       .loader('wasm-loader')
       .end()
   },
-
+  configureWebpack: {
+    optimization: {
+      splitChunks: false
+    }
+  },
   css: {
     loaderOptions: {
-      // pass options to sass-loader
       sass: {
         // @/ is an alias to src/
         // so this assumes you have a file named `src/variables.scss`
@@ -36,12 +40,9 @@ module.exports = {
       },
     },
   },
-  // pluginOptions: {
-  //   i18n: {
-  //     locale: 'en',
-  //     fallbackLocale: 'en',
-  //     localeDir: 'locales',
-  //     enableInSFC: true,
-  //   },
-  // },
+  pluginOptions: {
+    moment: {
+      locales: ['en', 'de']
+    }
+  },
 }

@@ -1,4 +1,4 @@
-import HashingWorker from '../../public/hashing.worker.js'
+import HashingWorker from './hashing.worker.js'
 
 async function hashFile (file) {
   return new Promise((resolve, reject) => {

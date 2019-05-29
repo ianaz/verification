@@ -21,91 +21,103 @@
   -->
 
 <template>
-<div class="verification-item">
-  <div class="item-header">
+<div class="verification-item" :class="{expanded: showAdvancedInfo}">
+  <div class="item-header" @click="showAdvancedInfo = false">
     <div class="icon">
       <slot name="icon"></slot>
     </div>
     <div class="title">
       <div class="filename">{{ verificationItem.name }}</div>
-      <slot name="title"></slot>
     </div>
   </div>
   <div class="item-body">
+    <div class="status">
+      <slot name="title"></slot>
+    </div>
+    <transition name="expand" mode="out-in">
+      <div class="loading-spinner" key="spinner" v-if="verificationItem.loaded !== true">
+        <vue-simple-spinner></vue-simple-spinner>
+      </div>
+      <div class="verification-info" key="info" v-else>
+        <div class="issuer_name"
+             v-if="verificationItem.issuerName">
+          <h3>{{ $t('verification.result.meta.issuer') }}</h3>
+          {{ verificationItem.issuerName }}
+        </div>
+        <div class="hash"
+             v-if="verificationItem.issuer">
+          <h3>{{ $t('verification.result.meta.issuerAddress') }}</h3>
+          <span class="content">{{ verificationItem.issuer }}</span>
+        </div>
+        <div class="registration_date"
+             v-if="verificationItem.registrationBlock">
+          <h3>{{ $t('verification.result.meta.registrationDate') }}</h3>
+          {{ moment.unix(verificationItem.registrationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }}
+        </div>
+        <div class="revocationDate"
+             v-if="verificationItem.revocationBlock">
+          <h3>{{ $t('verification.result.meta.revocationDate') }}</h3>
+          {{ moment.unix(verificationItem.revocationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }}
+        </div>
+      </div>
+    </transition>
     <div class="description">
       <slot name="description"></slot>
     </div>
-    <div class="issuer"
-         v-if="verificationItem.issuerName">
-      <h3>Issuer</h3>
-      {{ verificationItem.issuerName }}
-    </div>
-    <div class="issuer"
-         v-if="verificationItem.issuer">
-      <h3>Issuer address</h3>
-      {{ verificationItem.issuer }}
-    </div>
-    <div class="registration_date"
-         v-if="verificationItem.registrationBlock">
-      <h3>Registration date</h3>
-      {{ verificationItem.registrationBlock.timestamp}}
-    </div>
-    <div class="revocationDate"
-         v-if="verificationItem.revocationBlock">
-      <h3>Revocation date</h3>
-      {{ verificationItem.revocationBlock.timestamp}}
-    </div>
   </div>
   <div class="item-footer">
-    <button v-if="showAdvancedInfo"
-            class="btn btn-link advanced-toggler"
-            @click="showAdvancedInfo = !showAdvancedInfo">
-      <span>Hide expert info</span>
-      <i class="toggler mdi mdi-chevron-up-circle-outline mdi-24px"></i>
-    </button>
-    <button v-else
-            class="btn btn-link advanced-toggler"
-            @click="showAdvancedInfo = true">
-      <span>Show expert info</span>
-      <i class="toggler mdi mdi-chevron-down-circle-outline mdi-24px"></i>
-    </button>
-    <slot name="advanced" class="advanced" v-if="showAdvancedInfo === true">
-      <div v-if="verificationItem.issuer">
-        <h3 class="advanced_info--title">Issuer address</h3>
-        {{ verificationItem.issuer }}
+      <button v-if="showAdvancedInfo === false"
+              class="btn btn-link advanced-toggler"
+              @click.prevent="showAdvancedInfo = true">
+        <i class="toggler mdi mdi-chevron-up mdi-24px"></i>
+        <span>{{ $t('verification.result.expertInfo.show') }}</span>
+      </button>
+      <div v-else key="opened">
+        <button key="closed"
+                class="btn btn-link advanced-toggler"
+                @click.prevent="showAdvancedInfo = !showAdvancedInfo">
+          <span>{{ $t('verification.result.expertInfo.hide') }}</span>
+          <i class="toggler mdi mdi-chevron-down mdi-24px"></i>
+        </button>
+        <slot name="advanced" class="footer-content">
+          <div class="advanced-info">
+            <div class="hash" v-if="verificationItem.issuer">
+              <h3 class="advanced_info--title">{{ $t('verification.result.meta.issuerAddress') }}</h3>
+              <span class="content">{{ verificationItem.issuer }}</span>
+            </div>
+            <div class="hash" v-if="verificationItem.hash">
+              <h3 class="advanced_info--title">{{ $t('verification.result.meta.fingerprint') }}</h3>
+              <span class="content">{{ verificationItem.hash }}</span>
+            </div>
+            <div class="hash" v-if="verificationItem.registrationEvent">
+              <h3 class="advanced_info--title">{{ $t('verification.result.meta.registrationTransaction') }}</h3>
+              <span class="content">{{ verificationItem.registrationEvent.transactionHash}}</span>
+            </div>
+            <div class="hash" v-if="verificationItem.revocationEvent">
+              <h3 class="advanced_info--title">{{ $t('verification.result.meta.revocationTransaction') }}</h3>
+              <span class="content">{{ verificationItem.registrationEvent.transactionHash}}</span>
+            </div>
+          </div>
+        </slot>
       </div>
-      <div v-if="verificationItem.hash">
-        <h3 class="advanced_info--title">File hash value</h3>
-        {{ verificationItem.hash }}
-      </div>
-      <div v-if="verificationItem.registrationBlock">
-        <h3 class="advanced_info--title">Registered at</h3>
-        {{ verificationItem.registrationBlock.timestamp }}
-      </div>
-      <div v-if="verificationItem.registrationEvent">
-        <h3 class="advanced_info--title">Registration transaction</h3>
-        {{ verificationItem.registrationEvent.transactionHash}}
-      </div>
-      <div v-if="verificationItem.revocationEvent">
-        <h3 class="advanced_info--title">Revocation transaction</h3>
-        {{ verificationItem.registrationEvent.transactionHash}}
-      </div>
-      <div v-if="verificationItem.hash">
-        <h3 class="advanced_info--title">File hash value</h3>
-        {{ verificationItem.hash }}
-      </div>
-    </slot>
   </div>
 </div>
 </template>
 
 <script>
+import moment from 'moment'
+import Spinner from 'vue-simple-spinner'
+
 export default {
   name: 'layout-verification-item',
   props: ['verificationItem'],
+  components: {
+    'vue-simple-spinner': Spinner,
+  },
   data () {
     return {
       showAdvancedInfo: false,
+      moment,
     }
   },
 }

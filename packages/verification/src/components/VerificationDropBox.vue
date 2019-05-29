@@ -31,6 +31,7 @@
            type="file"
            multiple
            name="uploadField"
+           accept="application/pdf"
            @change="filesDropped($event.target.name, $event.target.files);">
   </div>
 </div>

@@ -21,19 +21,33 @@
   -->
 
 <template>
-<div id="app">
-  <verification></verification>
+<div id="blockfactory-verification">
+  <div class="verification">
+    <verification-drop-box @filesDropped="verify"></verification-drop-box>
+    <div class="verification-item-list">
+      <verification-item v-for="verificationItem in verificationItems"
+                         :verificationItem="verificationItem"></verification-item>
+    </div>
+  </div>
 </div>
 </template>
 
 <script>
-import Verification from '@/components/Verification'
 import WebFontLoader from 'webfontloader'
+import '@/assets/styles/styles.scss'
+import VerificationItem from '@/components/verification-items/VerificationItem'
+import VerificationDropBox from '@/components/VerificationDropBox'
 
 export default {
   name: 'App',
   components: {
-    Verification,
+    VerificationItem,
+    VerificationDropBox
+  },
+  computed: {
+    verificationItems () {
+      return this.$store.getters.verificationItems
+    },
   },
   mounted () {
     WebFontLoader.load({
@@ -44,13 +58,12 @@ export default {
     })
   },
   methods: {
+    async verify (files) {
+      this.$store.dispatch('VERIFY', Array.from(files))
+    },
     setFontLoaded () {
       this.$emit('font-loaded')
     },
   }
 }
 </script>
-
-<style lang="scss">
-
-</style>

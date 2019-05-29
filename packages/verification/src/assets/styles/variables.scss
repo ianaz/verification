@@ -1,22 +1,32 @@
 // COLORS
-$gray-100: #dadbdc;
-$gray-200: #cacbcd;
-$gray-300: #babcbd;
-$gray-400: #aaacad;
-$gray-500: #9a9b9c;
-$gray-600: #8a8b8c;
-$gray-700: #7a7b7c;
-$gray-800: #6a6b6c;
+$gray-100: #f2f4f6 !default;
+$gray-110: #f9fafb !default;
+$gray-150: #eff2f6 !default;
+$gray-180: #edf0f3 !default;
+$gray-200: #ebedf1 !default;
+$gray-250: #e7e9ec !default;
+$gray-300: #dcdee4 !default;
+$gray-350: #d9dbdf !default;
+$gray-400: #c0c1c5 !default;
+$gray-450: #c1c3c6 !default;
+$gray-500: #90939a !default;
+$gray-550: #8b8d95 !default;
+$gray-600: #7A7F92 !default;
+$gray-700: #4a4c55 !default;
+$gray-800: #343435 !default;
+$gray-900: #212122 !default;
+$primary: #0062c7 !default;
 
-$body-color: $gray-800;
-$text-muted: $gray-500;
-$border-color: $gray-100;
+$body-color: $gray-700;
+$text-muted: $gray-600;
+$border-color: $gray-200;
 
 // FONTS
 $body-font-family: 'Work Sans', Arial, sans-serif;
 $headings-font-family: 'Work Sans', Arial, sans-serif;
-$font-size-normal: 1rem;
-$font-size-small: .9rem;
+$font-size-normal: .95rem;
+$font-size-small: .85rem;
+$line-height: 1.4;
 
 $font-size-h1: 1.25rem;
 $font-size-h2: 1rem;
@@ -25,9 +35,9 @@ $font-size-h2: 1rem;
 $spacer: 1rem;
 
 // Shadows
-$box-shadow-standard: 1px 0 15px rgba(0, 0, 0, .2) !default;
+$box-shadow-standard: 0px 1px 30px rgba($gray-700, .15) !default;
 
 // Verification Items
-$verification-box-border: 5px dashed $border-color;
+$verification-box-border: 10px dashed $gray-300;
 $verification-box-title-color: $gray-700;
-$verification-box-subtitle-color: $gray-700;
+$verification-box-subtitle-color: $gray-500;

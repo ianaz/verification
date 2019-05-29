@@ -21,18 +21,16 @@
  */
 
 import Vue from 'vue'
-import App from './App.vue'
+import Verification from './Verification.vue'
 import store from './store'
 import i18n from './i18n'
 
 Vue.config.productionTip = false
 
-import '@/assets/styles/styles.scss'
-
-new Vue({
-  el: '#app',
+export default new Vue({
+  el: '#blockfactory-verification',
   store,
   i18n,
-  components: {App},
-  template: '<App/>',
+  components: {Verification},
+  template: '<Verification/>',
 })

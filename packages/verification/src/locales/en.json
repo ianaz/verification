@@ -17,9 +17,10 @@
         "hide": "Hide expert info",
         "show": "Show expert info"
       },
-      "issuer": "Issuer",
       "meta": {
         "contract": "Contract",
+        "issuer": "Issuer",
+        "issuerAddress": "Issuer address",
         "fingerprint": "File Hash Value",
         "registrationDate": "Registration date",
         "registrationTransaction": "Registration transaction",
@@ -30,7 +31,7 @@
         "message": "Your document could not be verified. This is not proof that it has been forged. The file might have been altered unintentionally or there could be a technical problem. Try again in a few minutes or contact the issuer."
       },
       "revoked": {
-        "status": "This file has been revoked and is no longer valid",
+        "status": "This file has been revoked and is no longer valid.",
         "message": "This document was originally registered by the issuer below and has since been revoked. It may or may not have been replaced by a newer version. Please contact the issuer for further information."
       },
       "selfDeclared": {

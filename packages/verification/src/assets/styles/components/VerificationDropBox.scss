@@ -1,10 +1,11 @@
 
 .verification-box {
   border: $verification-box-border;
-  max-width: 600px;
-  height: 300px;
+  max-width: 500px;
+  height: 250px;
   margin: 0 auto;
   position: relative;
+  padding: $spacer;
 
   .input-file {
     position: absolute;
@@ -17,19 +18,22 @@
   }
 
   .labels {
-    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
     height: 400px;
     .label {
       width: 100%;
       text-align: center;
     }
     .title {
-      font-size: $font-size-h1;
+      font-size: $font-size-normal;
       font-family: $headings-font-family;
-      padding-top: 20%;
+      padding-top: 70px;
       color: $verification-box-title-color;
+      font-weight: 500;
     }
     .subtitle {
+      margin-top: $spacer;
       font-size: $font-size-h2;
       font-family: $headings-font-family;
       color: $verification-box-subtitle-color;

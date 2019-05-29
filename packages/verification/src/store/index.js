@@ -83,6 +83,13 @@ export default new Vuex.Store({
         }
       })
     },
+    SET_VERIFICATION_ITEM_LOADED (state, {hash}) {
+      state.verificationItems.forEach((verificationItem, i) => {
+        if (verificationItem.hash === hash) {
+          Vue.set(state.verificationItems[i], 'loaded', true)
+        }
+      })
+    },
   },
   actions: {
     async VERIFY ({state, commit, dispatch}, files) {
@@ -98,16 +105,23 @@ export default new Vuex.Store({
           const verification = await client.verifyFile(hash)
           commit('UPDATE_VERIFICATION_ITEM', {hash, payload: verification})
 
-          let registrationEvent = await client.getRegistrationEvent(hash)
-          let registrationBlock = await client.getRegistrationTxBlock(hash)
-          commit('UPDATE_VERIFICATION_ITEM',
-            {hash, payload: {registrationEvent, registrationBlock}})
-
-          if (verification.revoked === true) {
-            let revocationEvent = await client.getRevocationEvent(hash)
-            let revocationBlock = await client.getRevocationTxBlock(hash)
+          if (verification.issuer !== null) {
+            let registrationEvent = await client.getRegistrationEvent(hash)
+            let registrationBlock = await client.getRegistrationTxBlock(hash)
             commit('UPDATE_VERIFICATION_ITEM',
-              {hash, payload: {revocationEvent, revocationBlock}})
+              {hash, payload: {registrationEvent, registrationBlock}})
+
+            if (verification.revoked === true) {
+              let revocationEvent = await client.getRevocationEvent(hash)
+              let revocationBlock = await client.getRevocationTxBlock(hash)
+              commit('UPDATE_VERIFICATION_ITEM',
+                {hash, payload: {revocationEvent, revocationBlock}})
+              commit('SET_VERIFICATION_ITEM_LOADED', {hash})
+            } else {
+              commit('SET_VERIFICATION_ITEM_LOADED', {hash})
+            }
+          } else {
+            commit('SET_VERIFICATION_ITEM_LOADED', {hash})
           }
         })
       } catch (e) {

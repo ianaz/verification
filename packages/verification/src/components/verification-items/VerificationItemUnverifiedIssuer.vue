@@ -23,10 +23,10 @@
 <template>
 <layout-verification-item :verificationItem="verificationItem">
   <template #icon>
-  <i class="mdi mdi-alert-decagram"></i>
+  <i class="mdi mdi-alert-circle-outline icon-unverified"></i>
   </template>
   <template #title>{{ $t('verification.result.selfDeclared.status') }}</template>
-  <template #description>{{ $t('verification.result.selfDeclared.message') }}</template>
+  <template #description><div v-html="$t('verification.result.selfDeclared.message')"></div></template>
 </layout-verification-item>
 </template>
 
