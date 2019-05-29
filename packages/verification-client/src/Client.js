@@ -31,7 +31,7 @@
  * @property {string} issuerImg
  */
 
-import Web3 from 'web3'
+import {Eth} from 'web3-eth'
 import SmartContractABI from './SmartContract.abi'
 
 export default class Client {
@@ -44,15 +44,9 @@ export default class Client {
    */
   constructor (providerUrl, contractAddress) {
     this.providerUrl = providerUrl
-    if (this.providerUrl.startsWith('wss')) {
-      this.provider = new Web3.providers.WebsocketProvider(this.providerUrl)
-    } else if (this.providerUrl.startsWith('http')) {
-      this.provider = new Web3.providers.HttpProvider(this.providerUrl)
-    }
-
     this.contractAddress = contractAddress
-    this.web3 = new Web3(this.provider, this.contractAddress)
-    this.contract = this.web3.eth.Contract(
+    this.eth = new Eth(this.providerUrl)
+    this.contract = this.eth.Contract(
       SmartContractABI,
       this.contractAddress,
     )
@@ -69,7 +63,6 @@ export default class Client {
         if (err) {
           reject(err)
         } else {
-          console.log(res)
           let {
             issuer,
             issuerName,
@@ -112,7 +105,6 @@ export default class Client {
         filter: {hash: fileHash},
         fromBlock: 0,
       })
-    console.log(arrEvents)
     return arrEvents[0] || null
   }
 
@@ -154,7 +146,7 @@ export default class Client {
   }
 
   async getBlock (blockHash) {
-    return await this.web3.eth.getBlock(blockHash)
+    return await this.eth.getBlock(blockHash)
   }
 
   /**
@@ -162,7 +154,7 @@ export default class Client {
    * Does nothing for HttpProviders.
    */
   close () {
-    return this.web3.currentProvider.connection.close()
+    return this.eth.currentProvider.connection.close()
   }
 
 }
