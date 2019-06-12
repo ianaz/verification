@@ -23,7 +23,7 @@
 .verification-box {
   box-sizing: content-box;
   border: 10px dashed $gray-300;
-  max-width: 500px;
+  max-width: 520px;
   height: 250px;
   margin: 0 auto;
   position: relative;
@@ -44,7 +44,7 @@
   }
 
   .labels {
-    max-width: 400px;
+    max-width: 430px;
     margin: 0 auto;
     height: 400px;
     .label {
@@ -52,14 +52,14 @@
       text-align: center;
     }
     .title {
-      font-size: 1.4rem;
+      font-size: 1.25rem;
       padding-top: 70px;
       color: $verification-box-title-color;
       font-weight: 500;
     }
     .subtitle {
       margin-top: $spacer;
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: $verification-box-subtitle-color;
     }
   }

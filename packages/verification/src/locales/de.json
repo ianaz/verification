@@ -18,9 +18,11 @@
       },
       "issuer": "Aussteller",
       "meta": {
+        "issuer": "Aussteller",
         "contract": "Contract",
         "fingerprint": "Datei-Hashwert",
         "registrationDate": "Ausstellungsdatum",
+        "revocationDate": "Annulierungsdatum",
         "registrationTransaction": "Ausstellungstransaktion",
         "revocationTransaction": "Annullierungstransaktion"
       },

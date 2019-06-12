@@ -32,9 +32,11 @@ Use the tool in a Vue.js context or mount it directly into your DOM as a script 
     
 #### Vue context
 The verification tool is a Vue instance mounting to an HTML element with the id `#certifaction-verification`.
-To use it in your application, import it as an ES6 module
+To use it in your application, import it as an ES6 module and use it as a component.
 
-    import '@blockfactory-ag/verification'
+    import Verification from '@blockfactory-ag/verification/src/Verification'
+    
+
     
 #### Script
 Build the tool and integrate it using a script tag just before the closing ``<body>`` tag of your HTML page.
@@ -51,3 +53,11 @@ Build the tool and integrate it using a script tag just before the closing ``<bo
         <script src="%PATH_TO_DIST_FOLDER%/js/main.js"></script>
       </body>
     </html>
+    
+    
+## Publish a new version
+To publish a new version please commit your changes to master and then execute
+
+    lerna publish
+    
+This will start the wizard to publish a new version to NPM.
