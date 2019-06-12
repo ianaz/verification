@@ -55,6 +55,12 @@ Build the tool and integrate it using a script tag just before the closing ``<bo
     </html>
     
     
+## Configuration
+Create a .env(.production) file in your vue projects root and use this for production contexts:
+
+    VUE_APP_PROVIDER_URL='wss://globally-wired-leopard.quiknode.io/14eaf46b-28cd-40cb-b39a-5eeda05ec2b8/tqclEU9oX2upm9YX2RUY6w==/'
+    VUE_APP_CONTRACT_ADDRESS='0x5ee4ec3cbee909050e68c7ff7a8b422cfbd72244'
+
 ## Publish a new version
 To publish a new version please commit your changes to master and then execute
 
