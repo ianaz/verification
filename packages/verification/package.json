@@ -1,6 +1,6 @@
 {
   "name": "@blockfactory-ag/verification",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.1-alpha.0",
   "description": "The verification tool of certifaction.io verifies the authenticity of documents against an Ethereum smart contract.",
   "main": "src/main.js",
   "repository": {
