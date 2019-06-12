@@ -27,13 +27,13 @@
 </template>
 
 <script>
-import VERIFICATION_TYPES from '@/lib/verification-types'
+import VERIFICATION_TYPES from '../../lib/verification-types'
 
-import ShadowItem from '@/components/verification-items/ShadowItem'
-import VerificationItemNotFound from '@/components/verification-items/VerificationItemNotFound'
-import VerificationItemRevoked from '@/components/verification-items/VerificationItemRevoked'
-import VerificationItemUnverifiedIssuer from '@/components/verification-items/VerificationItemUnverifiedIssuer'
-import VerificationItemVerified from '@/components/verification-items/VerificationItemVerified'
+import ShadowItem from './ShadowItem'
+import VerificationItemNotFound from './VerificationItemNotFound'
+import VerificationItemRevoked from './VerificationItemRevoked'
+import VerificationItemUnverifiedIssuer from './VerificationItemUnverifiedIssuer'
+import VerificationItemVerified from './VerificationItemVerified'
 
 export default {
   name: 'verification-item',

@@ -21,49 +21,99 @@
   -->
 
 <template>
-<div id="blockfactory-verification">
+<div id="certifaction-verification">
   <div class="verification">
-    <verification-drop-box @filesDropped="verify"></verification-drop-box>
+    <verification-drop-box @filesDropped="verify"/>
     <div class="verification-item-list">
-      <verification-item v-for="verificationItem in verificationItems"
-                         :verificationItem="verificationItem"></verification-item>
+      <verification-item v-for="verificationItem in filteredVerificationItems"
+                         :verificationItem="verificationItem"/>
     </div>
   </div>
 </div>
 </template>
 
 <script>
-import WebFontLoader from 'webfontloader'
-import '@/assets/styles/styles.scss'
-import VerificationItem from '@/components/verification-items/VerificationItem'
-import VerificationDropBox from '@/components/VerificationDropBox'
+import Vue from 'vue'
+import './assets/styles/styles.scss'
+import VerificationItem from './components/verification-items/VerificationItem'
+import VerificationDropBox from './components/VerificationDropBox'
+import client from './lib/contract-adapter'
+import VERIFICATION_TYPES from './lib/verification-types'
+import hashingService from './lib/hashing-service'
+
+function mapVerificationItemType (item) {
+  if (item.issuer === null) {
+    return VERIFICATION_TYPES.V_NOT_FOUND
+  }
+  if (item.revoked === true) {
+    return VERIFICATION_TYPES.V_REVOKED
+  }
+  if (item.issuer_verified === true) {
+    return VERIFICATION_TYPES.V_VERIFIED
+  }
+  return VERIFICATION_TYPES.V_SELF_DECLARED
+}
 
 export default {
-  name: 'App',
+  name: 'bf-verification',
   components: {
     VerificationItem,
     VerificationDropBox
   },
-  computed: {
-    verificationItems () {
-      return this.$store.getters.verificationItems
-    },
+  data () {
+    return {
+      verificationItems: []
+    }
   },
-  mounted () {
-    WebFontLoader.load({
-      google: {
-        families: ['Work Sans:100,300,400,500,700,900'],
-      },
-      active: this.setFontLoaded,
-    })
+  computed: {
+    filteredVerificationItems () {
+      return this.verificationItems.map(item => {
+        if (item.hash === undefined) {
+          return {
+            hashed: false,
+          }
+        }
+        return {
+          hashed: true,
+          type: mapVerificationItemType(item),
+          ...item,
+        }
+      })
+    },
   },
   methods: {
     async verify (files) {
-      this.$store.dispatch('VERIFY', Array.from(files))
-    },
-    setFontLoaded () {
-      this.$emit('font-loaded')
-    },
+      this.verificationItems = []
+      try {
+        for (const file of files) {
+          this.verificationItems.push({file, name: file.name})
+        }
+        this.verificationItems.forEach(async (item, i) => {
+          const hash = await hashingService.hashFile(item.file)
+          const verification = await client.verifyFile(hash)
+          Vue.set(this.verificationItems, i, {...this.verificationItems[i], hash, ...verification})
+
+          if (verification.issuer !== null) {
+            let [registrationEvent, registrationBlock] = await Promise.all(
+              [client.getRegistrationEvent(hash), client.getRegistrationTxBlock(hash)]
+            )
+
+            Vue.set(this.verificationItems, i, {...this.verificationItems[i], registrationEvent, registrationBlock})
+
+            if (verification.revoked === true) {
+              let [revocationEvent, revocationBlock] = await Promise.all(
+                [client.getRevocationEvent(hash), client.getRevocationTxBlock(hash)]
+              )
+              Vue.set(this.verificationItems, i, {...this.verificationItems[i], revocationEvent, revocationBlock})
+            }
+          }
+
+          Vue.set(this.verificationItems[i], 'loaded', true)
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }
 }
 </script>

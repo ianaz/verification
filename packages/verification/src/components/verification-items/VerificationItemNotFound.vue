@@ -23,7 +23,7 @@
 <template>
 <layout-verification-item :verificationItem="verificationItem">
   <template #icon>
-  <i class="mdi mdi-alert-circle"></i>
+  <i class="mdi mdi-alert-circle icon-not-found"></i>
   </template>
   <template #title>{{ $t('verification.result.notFound.status') }}</template>
   <template #description>{{ $t('verification.result.notFound.message') }}</template>

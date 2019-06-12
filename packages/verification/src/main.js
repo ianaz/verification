@@ -22,14 +22,12 @@
 
 import Vue from 'vue'
 import Verification from './Verification.vue'
-import store from './store'
 import i18n from './i18n'
 
 Vue.config.productionTip = false
 
-export default new Vue({
-  el: '#blockfactory-verification',
-  store,
+let instance = new Vue({
+  el: '#certifaction-verification',
   i18n,
   components: {Verification},
   template: '<Verification/>',

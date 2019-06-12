@@ -1,8 +1,8 @@
 {
   "verification": {
     "box": {
-      "label1": "Your documents won't be uploaded or saved.",
-      "label2": "Drag & drop or click to select a PDF document from your device."
+      "label1": "Drag & drop or click to select a PDF document from your device.",
+      "label2": "Your documents won't be uploaded or saved."
     },
     "demo": {
       "clickToVerify": "Click to verify",
@@ -23,6 +23,7 @@
         "issuerAddress": "Issuer address",
         "fingerprint": "File Hash Value",
         "registrationDate": "Registration date",
+        "revocationDate": "Revocation date",
         "registrationTransaction": "Registration transaction",
         "revocationTransaction": "Revocation transaction"
       },

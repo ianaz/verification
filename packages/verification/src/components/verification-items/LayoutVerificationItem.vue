@@ -39,25 +39,27 @@
         <vue-simple-spinner></vue-simple-spinner>
       </div>
       <div class="verification-info" key="info" v-else>
-        <div class="issuer_name"
+        <div class="verification-entry issuer_name"
              v-if="verificationItem.issuerName">
-          <h3>{{ $t('verification.result.meta.issuer') }}</h3>
           {{ verificationItem.issuerName }}
+          <span class="stacked-title">{{ $t('verification.result.meta.issuer') }}</span>
         </div>
-        <div class="hash"
+        <div class="verification-entry issuer"
              v-if="verificationItem.issuer">
-          <h3>{{ $t('verification.result.meta.issuerAddress') }}</h3>
-          <span class="content">{{ verificationItem.issuer }}</span>
+          <div class="hash">
+            <span class="content">{{ verificationItem.issuer }}</span>
+          </div>
+          <span class="stacked-title">{{ $t('verification.result.meta.issuerAddress') }}</span>
         </div>
-        <div class="registration_date"
+        <div class="verification-entry registration_date"
              v-if="verificationItem.registrationBlock">
-          <h3>{{ $t('verification.result.meta.registrationDate') }}</h3>
           {{ moment.unix(verificationItem.registrationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }}
+          <span class="stacked-title">{{ $t('verification.result.meta.registrationDate') }}</span>
         </div>
-        <div class="revocationDate"
+        <div class="verification-entry revocationDate"
              v-if="verificationItem.revocationBlock">
-          <h3>{{ $t('verification.result.meta.revocationDate') }}</h3>
           {{ moment.unix(verificationItem.revocationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }}
+          <span class="stacked-title">{{ $t('verification.result.meta.revocationDate') }}</span>
         </div>
       </div>
     </transition>
@@ -65,7 +67,7 @@
       <slot name="description"></slot>
     </div>
   </div>
-  <div class="item-footer">
+  <div class="item-footer" v-if="verificationItem.issuer !== null">
       <button v-if="showAdvancedInfo === false"
               class="btn btn-link advanced-toggler"
               @click.prevent="showAdvancedInfo = true">
@@ -81,21 +83,29 @@
         </button>
         <slot name="advanced" class="footer-content">
           <div class="advanced-info">
-            <div class="hash" v-if="verificationItem.issuer">
-              <h3 class="advanced_info--title">{{ $t('verification.result.meta.issuerAddress') }}</h3>
-              <span class="content">{{ verificationItem.issuer }}</span>
+            <div class="verification-entry issuer-address" v-if="verificationItem.issuer">
+              <div class="hash">
+                <span class="content">{{ verificationItem.issuer }}</span>
+              </div>
+              <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.issuerAddress') }}</span>
             </div>
-            <div class="hash" v-if="verificationItem.hash">
-              <h3 class="advanced_info--title">{{ $t('verification.result.meta.fingerprint') }}</h3>
-              <span class="content">{{ verificationItem.hash }}</span>
+            <div class="verification-entry fingerprint" v-if="verificationItem.hash">
+              <div class="hash">
+                <span class="content">{{ verificationItem.hash }}</span>
+              </div>
+              <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.fingerprint') }}</span>
             </div>
-            <div class="hash" v-if="verificationItem.registrationEvent">
-              <h3 class="advanced_info--title">{{ $t('verification.result.meta.registrationTransaction') }}</h3>
-              <span class="content">{{ verificationItem.registrationEvent.transactionHash}}</span>
+            <div class="verification-entry registration-hash" v-if="verificationItem.registrationEvent">
+              <div class="hash">
+                <span class="content">{{ verificationItem.registrationEvent.transactionHash}}</span>
+              </div>
+              <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.registrationTransaction') }}</span>
             </div>
-            <div class="hash" v-if="verificationItem.revocationEvent">
-              <h3 class="advanced_info--title">{{ $t('verification.result.meta.revocationTransaction') }}</h3>
-              <span class="content">{{ verificationItem.registrationEvent.transactionHash}}</span>
+            <div class="verification-entry revocation-hash" v-if="verificationItem.revocationEvent">
+              <div class="hash">
+                <span class="content">{{ verificationItem.registrationEvent.transactionHash}}</span>
+              </div>
+              <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.revocationTransaction') }}</span>
             </div>
           </div>
         </slot>
@@ -107,6 +117,12 @@
 <script>
 import moment from 'moment'
 import Spinner from 'vue-simple-spinner'
+import Vue from 'vue'
+import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
+
+Vue.directive('tooltip', VTooltip)
+Vue.directive('close-popover', VClosePopover)
+Vue.component('v-popover', VPopover)
 
 export default {
   name: 'layout-verification-item',

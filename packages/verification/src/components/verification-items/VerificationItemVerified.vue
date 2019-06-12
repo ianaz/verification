@@ -23,7 +23,7 @@
 <template>
 <layout-verification-item :verificationItem="verificationItem">
   <template #icon>
-  <i class="mdi mdi-shield-check"></i>
+  <i class="mdi mdi-shield-check icon-verified"></i>
   </template>
   <template #title>{{ $t('verification.result.verified.status') }}</template>
 </layout-verification-item>
