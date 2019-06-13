@@ -41,8 +41,8 @@
       <div class="verification-info" key="info" v-else>
         <div class="verification-entry issuer_name"
              v-if="verificationItem.issuerName">
-          {{ verificationItem.issuerName }}
-          <span class="stacked-title">{{ $t('verification.result.meta.issuer') }}</span>
+          {{ verificationItem.issuerName }} <span
+          class="stacked-title">{{ $t('verification.result.meta.issuer') }}</span>
         </div>
         <div class="verification-entry issuer"
              v-if="verificationItem.issuer">
@@ -53,13 +53,13 @@
         </div>
         <div class="verification-entry registration_date"
              v-if="verificationItem.registrationBlock">
-          {{ moment.unix(verificationItem.registrationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }}
-          <span class="stacked-title">{{ $t('verification.result.meta.registrationDate') }}</span>
+          {{ moment.unix(verificationItem.registrationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }} <span
+          class="stacked-title">{{ $t('verification.result.meta.registrationDate') }}</span>
         </div>
         <div class="verification-entry revocationDate"
              v-if="verificationItem.revocationBlock">
-          {{ moment.unix(verificationItem.revocationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }}
-          <span class="stacked-title">{{ $t('verification.result.meta.revocationDate') }}</span>
+          {{ moment.unix(verificationItem.revocationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }} <span
+          class="stacked-title">{{ $t('verification.result.meta.revocationDate') }}</span>
         </div>
       </div>
     </transition>
@@ -68,48 +68,55 @@
     </div>
   </div>
   <div class="item-footer" v-if="verificationItem.issuer !== null">
-      <button v-if="showAdvancedInfo === false"
+    <button v-if="showAdvancedInfo === false"
+            class="btn btn-link advanced-toggler"
+            @click.prevent="showAdvancedInfo = true">
+      <i class="toggler mdi mdi-chevron-up mdi-24px"></i>
+      <span>{{ $t('verification.result.expertInfo.show') }}</span>
+    </button>
+    <div v-else key="opened">
+      <button key="closed"
               class="btn btn-link advanced-toggler"
-              @click.prevent="showAdvancedInfo = true">
-        <i class="toggler mdi mdi-chevron-up mdi-24px"></i>
-        <span>{{ $t('verification.result.expertInfo.show') }}</span>
+              @click.prevent="showAdvancedInfo = !showAdvancedInfo">
+        <span>{{ $t('verification.result.expertInfo.hide') }}</span>
+        <i class="toggler mdi mdi-chevron-down mdi-24px"></i>
       </button>
-      <div v-else key="opened">
-        <button key="closed"
-                class="btn btn-link advanced-toggler"
-                @click.prevent="showAdvancedInfo = !showAdvancedInfo">
-          <span>{{ $t('verification.result.expertInfo.hide') }}</span>
-          <i class="toggler mdi mdi-chevron-down mdi-24px"></i>
-        </button>
-        <slot name="advanced" class="footer-content">
-          <div class="advanced-info">
-            <div class="verification-entry issuer-address" v-if="verificationItem.issuer">
-              <div class="hash">
-                <span class="content">{{ verificationItem.issuer }}</span>
-              </div>
-              <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.issuerAddress') }}</span>
+      <slot name="advanced" class="footer-content">
+        <div class="advanced-info">
+          <div class="verification-entry issuer-address" v-if="verificationItem.issuer">
+            <div class="hash">
+              <span class="content">{{ verificationItem.issuer }}</span>
             </div>
-            <div class="verification-entry fingerprint" v-if="verificationItem.hash">
-              <div class="hash">
-                <span class="content">{{ verificationItem.hash }}</span>
-              </div>
-              <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.fingerprint') }}</span>
-            </div>
-            <div class="verification-entry registration-hash" v-if="verificationItem.registrationEvent">
-              <div class="hash">
-                <span class="content">{{ verificationItem.registrationEvent.transactionHash}}</span>
-              </div>
-              <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.registrationTransaction') }}</span>
-            </div>
-            <div class="verification-entry revocation-hash" v-if="verificationItem.revocationEvent">
-              <div class="hash">
-                <span class="content">{{ verificationItem.registrationEvent.transactionHash}}</span>
-              </div>
-              <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.revocationTransaction') }}</span>
-            </div>
+            <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.issuerAddress') }}</span>
           </div>
-        </slot>
-      </div>
+          <div class="verification-entry fingerprint" v-if="verificationItem.hash">
+            <div class="hash">
+              <span class="content">{{ verificationItem.hash }}</span>
+            </div>
+            <span class="stacked-title advanced_info--title">{{ $t('verification.result.meta.fingerprint') }}</span>
+          </div>
+          <div class="verification-entry registration-hash" v-if="verificationItem.registrationEvent">
+            <div class="hash">
+                <span class="content"><a
+                  :href="`https://${net}/tx/${verificationItem.registrationEvent.transactionHash}`"
+                  target="_blank">{{ verificationItem.registrationEvent.transactionHash}}</a>
+                </span>
+            </div>
+            <span
+              class="stacked-title advanced_info--title">{{ $t('verification.result.meta.registrationTransaction') }}</span>
+          </div>
+          <div class="verification-entry revocation-hash" v-if="verificationItem.revocationEvent">
+            <div class="hash">
+                <span class="content"><a :href="`https://${net}/tx/${verificationItem.revocationEvent.transactionHash}`"
+                                         target="_blank">{{ verificationItem.revocationEvent.transactionHash}}</a>
+                </span>
+            </div>
+            <span
+              class="stacked-title advanced_info--title">{{ $t('verification.result.meta.revocationTransaction') }}</span>
+          </div>
+        </div>
+      </slot>
+    </div>
   </div>
 </div>
 </template>
@@ -135,6 +142,18 @@ export default {
       showAdvancedInfo: false,
       moment,
     }
+  },
+  computed: {
+    net () {
+      switch (process.env.VUE_APP_ETHEREUM_NET || 'mainnet') {
+        case 'mainnet':
+          return 'etherscan.io'
+        case 'ropsten':
+          return 'ropsten.etherscan.io'
+        default:
+          return 'etherscan.io'
+      }
+    },
   },
 }
 </script>
