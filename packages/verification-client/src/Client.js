@@ -32,6 +32,7 @@
  */
 
 import {Eth} from 'web3-eth'
+import {hexToUtf8, hexToBytes} from 'web3-utils'
 import SmartContractABI from './SmartContract.abi'
 
 export default class Client {
@@ -75,9 +76,11 @@ export default class Client {
           // Let's nullify all empty hex strings for beauty
           const nullValue40 = '0x0000000000000000000000000000000000000000'
           const nullValue64 = '0x0000000000000000000000000000000000000000000000000000000000000000'
+
+          // Transform from hex representation
           issuer = issuer === nullValue40 ? null : issuer
-          issuerName = issuerName === nullValue64 ? null : issuerName
-          issuerImg = issuerImg === nullValue64 ? null : issuerImg
+          issuerName = issuerName === nullValue40 ? null : hexToUtf8(issuerName)
+          issuerImg = issuerImg === nullValue64 ? null : hexToBytes(issuerImg)
           expiry = expiry._hex === '0x00' ? null : expiry._hex
 
           resolve({

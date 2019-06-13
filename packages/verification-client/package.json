@@ -11,7 +11,8 @@
     "^.+\\.jsx?$": "babel-jest"
   },
   "dependencies": {
-    "web3-eth": "^1.0.0-beta.55"
+    "web3-eth": "^1.0.0-beta.55",
+    "web3-utils": "^1.0.0-beta.55"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
