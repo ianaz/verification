@@ -33,6 +33,10 @@
     border: 10px dashed $gray-400;
   }
 
+  &.dragover {
+    background: $gray-100;
+  }
+
   .input-file {
     position: absolute;
     top: 0;
@@ -53,7 +57,7 @@
     }
     .title {
       font-size: 1.25rem;
-      padding-top: 70px;
+      padding-top: 60px;
       color: $verification-box-title-color;
       font-weight: 500;
     }
