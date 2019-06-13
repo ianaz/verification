@@ -23,8 +23,8 @@
 import { Client } from '@blockfactory-ag/verification-client'
 
 const providerUrl = process.env.VUE_APP_PROVIDER_URL ||
-  'wss://ropsten.infura.io/ws/v3/4876e0df8d31475799c8239ba2538c4c'
+  'wss://mainnet.infura.io/ws/v3/4876e0df8d31475799c8239ba2538c4c'
 const contractAddress = process.env.VUE_APP_CONTRACT_ADDRESS ||
-  '0xec70947cbb9bbf8b94acaeca861ddbc933b3c789'
+  '0x5ee4ec3cbee909050e68c7ff7a8b422cfbd72244'
 
 export default new Client(providerUrl, contractAddress)
