@@ -69,14 +69,14 @@
   </div>
   <div class="item-footer" v-if="verificationItem.issuer !== null">
     <button v-if="showAdvancedInfo === false"
-            class="btn btn-link advanced-toggler"
+            class="btn-link advanced-toggler"
             @click.prevent="showAdvancedInfo = true">
       <i class="toggler mdi mdi-chevron-up mdi-24px"></i>
       <span>{{ $t('verification.result.expertInfo.show') }}</span>
     </button>
     <div v-else key="opened">
       <button key="closed"
-              class="btn btn-link advanced-toggler"
+              class="btn-link advanced-toggler"
               @click.prevent="showAdvancedInfo = !showAdvancedInfo">
         <span>{{ $t('verification.result.expertInfo.hide') }}</span>
         <i class="toggler mdi mdi-chevron-down mdi-24px"></i>
