@@ -134,6 +134,9 @@ export default class Client {
    */
   async getRegistrationTxBlock (fileHash) {
     let event = await this.getRegistrationEvent(fileHash)
+    if (event === null) {
+      return null
+    }
     return await this.getBlock(event.blockHash)
   }
 
@@ -145,6 +148,9 @@ export default class Client {
    */
   async getRevocationTxBlock (fileHash) {
     let event = await this.getRevocationEvent(fileHash)
+    if (event === null) {
+      return null
+    }
     return await this.getBlock(event.blockHash)
   }
 
