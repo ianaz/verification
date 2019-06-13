@@ -21,7 +21,10 @@
   -->
 
 <template>
-<div class="verification-box">
+<div class="verification-box" :class="{dragover:draggingOver}"
+     @dragover.prevent="draggingOver = true"
+     @dragleave="draggingOver = false"
+     @drop="draggingOver=false; $emit('drop')">
   <div class="dropbox">
     <div class="labels">
       <div class="label title">{{ $t('verification.box.label1') }}</div>
@@ -40,6 +43,11 @@
 <script>
 export default {
   name: 'verification-drop-box',
+  data () {
+    return {
+      draggingOver: false
+    }
+  },
   methods: {
     filesDropped (target, files) {
       this.$emit('filesDropped', files)
