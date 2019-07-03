@@ -187,16 +187,16 @@ export default {
         'revoked': false,
         'expiry': null,
         'registrationEvent': {
-          'address': '0xEc70947Cbb9bbF8b94AcAECa861dDbC933B3C789',
-          'blockHash': '0x960a78d637f7b7aae0146d3be54159b1e8a96079ea4b34e60dae74d9350730f0',
-          'blockNumber': 5236245,
-          'transactionHash': '0x2cbc8c13f003fce83f5828ad979d7deddfa1b3ebec65edbb2db822f9d5e74d5c',
+          'address': '0x5ee4ec3cbee909050e68c7ff7a8b422cfbd72244',
+          'blockHash': '0xa95f5fce5e6ebfcbdb8bbd932e412fd376dc8b7189b8d8572fe9d4d8994961de',
+          'blockNumber': 7937331,
+          'transactionHash': '0x9b7e8f75ae271d8d659eb7bbd6d090fad3c784f862a5a83368fbc970bfa0a215 ',
           'event': 'FileRegisteredEvent',
           'signature': '0x98b03391b6b42a1d067881e3d2a22b2091e0412a0e2c40cf687d1c036beb6e11',
         },
         'registrationBlock': {
-          'hash': '0x960a78d637f7b7aae0146d3be54159b1e8a96079ea4b34e60dae74d9350730f0',
-          'timestamp': 1553015795,
+          'hash': '0x9b7e8f75ae271d8d659eb7bbd6d090fad3c784f862a5a83368fbc970bfa0a215',
+          'timestamp': 1560246087,
         },
         'loaded': true,
       })
