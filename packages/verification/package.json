@@ -23,7 +23,7 @@
   "dependencies": {
     "@blockfactory-ag/verification-client": "^1.1.1",
     "@mdi/font": "^3.6.95",
-    "axios": "^0.19.0",
+    "axios": "^0.18.1",
     "js-sha3": "^0.8.0",
     "moment": "^2.24.0",
     "v-tooltip": "^2.0.2",
