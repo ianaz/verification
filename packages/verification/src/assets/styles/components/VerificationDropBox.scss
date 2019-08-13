@@ -24,7 +24,7 @@
   box-sizing: content-box;
   border: 10px dashed $gray-300;
   max-width: 520px;
-  height: 250px;
+  height: auto;
   margin: 0 auto;
   position: relative;
   padding: $spacer;
@@ -51,20 +51,31 @@
     max-width: 430px;
     margin: 0 auto;
     height: 400px;
+    padding: 60px 0;
+
     .label {
       width: 100%;
       text-align: center;
     }
+
     .title {
       font-size: 1.25rem;
-      padding-top: 60px;
+      padding-top: 0;
       color: $verification-box-title-color;
       font-weight: 500;
     }
+
     .subtitle {
       margin-top: $spacer;
       font-size: 1rem;
       color: $verification-box-subtitle-color;
     }
+  }
+}
+
+@media screen and (max-device-width: 767px) {
+  .verification-box .labels .title {
+    font-size: 1.1rem;
+    padding-top: 30px;
   }
 }

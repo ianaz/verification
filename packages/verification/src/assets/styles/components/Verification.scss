@@ -32,3 +32,9 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+@media screen and (max-device-width: 767px) {
+  .verification {
+    padding: 1rem;
+  }
+}
