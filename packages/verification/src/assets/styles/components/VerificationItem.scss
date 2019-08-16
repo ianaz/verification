@@ -20,6 +20,12 @@
  *   SOFTWARE.
  */
 
+.verification-item-list {
+  .item-container {
+    max-width: 100%;
+  }
+}
+
 .verification-item {
   background: white;
   position: relative;
@@ -176,6 +182,29 @@
       overflow-wrap: break-word;
       h3 {
         color: $body-color;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .item-container {
+    max-width: 100%;
+    .verification-item {
+      margin-left: 0;
+      margin-right: 0;
+      .item-header, .item-footer, .item-body {
+        padding: 1rem;
+      }
+      .item-body {
+        .status {
+          font-size: 0.9rem;
+        }
+      }
+      .hash {
+        .content {
+          max-width: 160px;
+        }
       }
     }
   }
