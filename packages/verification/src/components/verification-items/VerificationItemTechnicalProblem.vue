@@ -23,10 +23,11 @@
 <template>
 <layout-verification-item :verificationItem="verificationItem">
   <template #icon>
-  <i class="icon icon-revoked"></i>
+    <i class="icon icon-not-found"></i>
   </template>
-  <template #title>{{ $t('verification.result.revoked.status') }}</template>
-  <template #description><div v-html="$t('verification.result.revoked.message')"></div></template>
+  <template #title>{{ $t('verification.result.technicalProblem.status') }}</template>
+  <template #description v-if="!verificationItem.offchainError"><div v-html="$t('verification.result.technicalProblem.message')"></div></template>
+  <template #description v-else><div v-html="$t('verification.result.technicalProblem.offchainMessage')"></div></template>
 </layout-verification-item>
 </template>
 
@@ -34,7 +35,7 @@
 import LayoutVerificationItem from './LayoutVerificationItem'
 
 export default {
-  name: 'VerificationItemRevoked',
+  name: 'VerificationItemNotFound',
   props: ['verificationItem'],
   components: {
     LayoutVerificationItem,

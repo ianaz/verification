@@ -23,7 +23,7 @@
 <template>
 <div class="verification-item" :class="{expanded: showAdvancedInfo}">
   <div class="item-header" @click="showAdvancedInfo = false">
-    <div class="icon">
+    <div class="icon" v-if="verificationItem.loaded === true">
       <slot name="icon"></slot>
     </div>
     <div class="title">
@@ -32,17 +32,17 @@
   </div>
   <div class="item-body">
     <div class="status">
-      <slot name="title"></slot>
+      <slot name="title" v-if="isLoaded"></slot>
     </div>
     <transition name="expand" mode="out-in">
-      <div class="loading-spinner" key="spinner" v-if="verificationItem.loaded !== true">
+      <div class="loading-spinner" key="spinner" v-if="!isLoaded">
         <vue-simple-spinner></vue-simple-spinner>
       </div>
       <div class="verification-info" key="info" v-else>
         <div class="verification-entry issuer_name"
              v-if="verificationItem.issuerName">
-          {{ verificationItem.issuerName }} <span
-          class="stacked-title">{{ $t('verification.result.meta.issuer') }}</span>
+          {{ verificationItem.issuerName }} <img v-if="verificationItem.verifiedIssuer" src="./../../assets/img/verified-tick.png" alt="Verified" />
+          <span class="stacked-title">{{ $t('verification.result.meta.issuer') }}</span>
         </div>
         <div class="verification-entry issuer"
              v-if="verificationItem.issuer">
@@ -52,8 +52,9 @@
           <span class="stacked-title">{{ $t('verification.result.meta.issuerAddress') }}</span>
         </div>
         <div class="verification-entry registration_date"
-             v-if="verificationItem.registrationBlock">{{ moment.unix(verificationItem.registrationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }} <span
-          class="stacked-title">{{ $t('verification.result.meta.registrationDate') }}</span>
+             v-if="verificationItem.registrationBlock">{{
+          moment.unix(verificationItem.registrationBlock.timestamp).format('MMMM Do YYYY, h:mm:ss a') }} <span
+            class="stacked-title">{{ $t('verification.result.meta.registrationDate') }}</span>
         </div>
         <div class="verification-entry revocationDate"
              v-if="verificationItem.revocationBlock">
@@ -62,11 +63,11 @@
         </div>
       </div>
     </transition>
-    <div class="description">
+    <div class="description" v-if="isLoaded">
       <slot name="description"></slot>
     </div>
   </div>
-  <div class="item-footer" v-if="verificationItem.issuer !== null">
+  <div class="item-footer" v-if="verificationItem.issuer !== null && isLoaded && !verificationItem.error">
     <button v-if="showAdvancedInfo === false"
             class="btn-link advanced-toggler"
             @click.prevent="showAdvancedInfo = true">
@@ -96,19 +97,19 @@
           </div>
           <div class="verification-entry registration-hash" v-if="verificationItem.registrationEvent">
             <div class="hash">
-                <span class="content"><a
-                  :href="`https://${net}/tx/${verificationItem.registrationEvent.transactionHash}`"
-                  target="_blank">{{ verificationItem.registrationEvent.transactionHash}}</a>
-                </span>
+              <span class="content"><a
+                :href="`https://${net}/tx/${verificationItem.registrationEvent.transactionHash}`"
+                target="_blank">{{ verificationItem.registrationEvent.transactionHash}}</a>
+              </span>
             </div>
             <span
               class="stacked-title advanced_info--title">{{ $t('verification.result.meta.registrationTransaction') }}</span>
           </div>
           <div class="verification-entry revocation-hash" v-if="verificationItem.revocationEvent">
             <div class="hash">
-                <span class="content"><a :href="`https://${net}/tx/${verificationItem.revocationEvent.transactionHash}`"
-                                         target="_blank">{{ verificationItem.revocationEvent.transactionHash}}</a>
-                </span>
+              <span class="content"><a :href="`https://${net}/tx/${verificationItem.revocationEvent.transactionHash}`"
+                                       target="_blank">{{ verificationItem.revocationEvent.transactionHash}}</a>
+              </span>
             </div>
             <span
               class="stacked-title advanced_info--title">{{ $t('verification.result.meta.revocationTransaction') }}</span>
@@ -134,12 +135,12 @@ export default {
   name: 'layout-verification-item',
   props: ['verificationItem'],
   components: {
-    'vue-simple-spinner': Spinner,
+    'vue-simple-spinner': Spinner
   },
   data () {
     return {
       showAdvancedInfo: false,
-      moment,
+      moment
     }
   },
   computed: {
@@ -153,6 +154,9 @@ export default {
           return 'etherscan.io'
       }
     },
-  },
+    isLoaded () {
+      return this.verificationItem.loaded === true
+    }
+  }
 }
 </script>

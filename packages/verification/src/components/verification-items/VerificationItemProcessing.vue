@@ -23,10 +23,10 @@
 <template>
 <layout-verification-item :verificationItem="verificationItem">
   <template #icon>
-  <i class="icon icon-revoked"></i>
+    <i class="icon icon-progress"><img src="./../../assets/img/loading.gif" alt="" /></i>
   </template>
-  <template #title>{{ $t('verification.result.revoked.status') }}</template>
-  <template #description><div v-html="$t('verification.result.revoked.message')"></div></template>
+  <template #title>{{ $t('verification.result.processing.status') }}</template>
+  <template #description><div v-html="$t('verification.result.processing.message')"></div></template>
 </layout-verification-item>
 </template>
 
@@ -34,7 +34,7 @@
 import LayoutVerificationItem from './LayoutVerificationItem'
 
 export default {
-  name: 'VerificationItemRevoked',
+  name: 'VerificationItemProcessing',
   props: ['verificationItem'],
   components: {
     LayoutVerificationItem,

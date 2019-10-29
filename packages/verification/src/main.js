@@ -20,15 +20,25 @@
  * SOFTWARE.
  */
 
+/*
+ To Test with the off-chain:
+ import certifactionVerifier from '@blockfactory-ag/verification-client/src/CertifactionVerifierExample'
+   computed: {
+     certifactionVerifier () {
+       return certifactionVerifier
+     }
+   },
+  template: '<div><Verification v-bind:offchain-verifier="certifactionVerifier" /></div>'
+ */
+
 import Vue from 'vue'
 import Verification from './Verification.vue'
 import i18n from './i18n'
 
 Vue.config.productionTip = false
-
-let instance = new Vue({
+new Vue({
   el: '#certifaction-verification',
   i18n,
-  components: {Verification},
-  template: '<Verification/>',
+  components: { Verification },
+  template: '<div><Verification /></div>'
 })

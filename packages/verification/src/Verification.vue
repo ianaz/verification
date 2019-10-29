@@ -73,6 +73,7 @@ import client from './lib/contract-adapter'
 import VERIFICATION_TYPES from './lib/verification-types'
 import hashingService from './lib/hashing-service'
 import VueScrollTo from 'vue-scrollto'
+import { Interface, OffchainVerifierInterface } from '@blockfactory-ag/verification-client/src/OffchainVerifierInterface'
 
 Vue.use(VueScrollTo)
 
@@ -94,67 +95,114 @@ export default {
   props: {
     demo: {
       required: false,
-      type: Boolean,
+      type: Boolean
     },
+    offchainVerifier: {
+      required: false,
+      type: Object,
+      validator: function (value) {
+        Interface.ensureImplements(value, OffchainVerifierInterface)
+        return true
+      }
+    }
   },
   components: {
     VerificationItem,
-    VerificationDropBox,
+    VerificationDropBox
   },
   data () {
     return {
       verificationItems: [],
       draggingDemoDoc: undefined,
-      draggingOver: false,
+      draggingOver: false
     }
   },
   computed: {
     filteredVerificationItems () {
       return this.verificationItems.map(item => {
-        if (item.hash === undefined) {
+        if (item.hash === undefined && !item.error) {
           return {
-            hashed: false,
+            hashed: false
           }
         }
         return {
           hashed: true,
           type: mapVerificationItemType(item),
-          ...item,
+          ...item
         }
       })
-    },
+    }
   },
   methods: {
     async verify (files) {
       this.verificationItems = []
       try {
         for (const file of files) {
-          this.verificationItems.push({file, name: file.name})
+          this.verificationItems.push({ file, name: file.name })
         }
 
         VueScrollTo.scrollTo(this.$refs.results, 400)
 
         this.verificationItems.forEach(async (item, i) => {
-          const hash = await hashingService.hashFile(item.file)
-          const verification = await client.verifyFile(hash)
-          Vue.set(this.verificationItems, i, {...this.verificationItems[i], hash, ...verification})
+          try {
+            const hash = await hashingService.hashFile(item.file)
+            const verification = await client.verifyFile(hash)
+            Vue.set(this.verificationItems, i, { ...this.verificationItems[i], hash, ...verification })
 
-          if (verification.issuer !== null) {
-            let [registrationEvent, registrationBlock] = await Promise.all(
-              [client.getRegistrationEvent(hash), client.getRegistrationTxBlock(hash)],
-            )
-
-            Vue.set(this.verificationItems, i, {...this.verificationItems[i], registrationEvent, registrationBlock})
-
-            if (verification.revoked === true) {
-              let [revocationEvent, revocationBlock] = await Promise.all(
-                [client.getRevocationEvent(hash), client.getRevocationTxBlock(hash)],
+            if (verification.issuer !== null) {
+              this.verificationItems[i].onBlockchain = true
+              let [registrationEvent, registrationBlock] = await Promise.all(
+                [client.getRegistrationEvent(hash), client.getRegistrationTxBlock(hash)]
               )
-              Vue.set(this.verificationItems, i, {...this.verificationItems[i], revocationEvent, revocationBlock})
-            }
-          }
 
-          Vue.set(this.verificationItems[i], 'loaded', true)
+              Vue.set(this.verificationItems, i, {
+                ...this.verificationItems[i],
+                registrationEvent,
+                registrationBlock
+              })
+
+              if (verification.revoked === true) {
+                let [revocationEvent, revocationBlock] = await Promise.all(
+                  [client.getRevocationEvent(hash), client.getRevocationTxBlock(hash)]
+                )
+                Vue.set(this.verificationItems, i, {
+                  ...this.verificationItems[i],
+                  revocationEvent,
+                  revocationBlock
+                })
+              }
+            }
+
+            if (this.offchainVerifier) {
+              // Make a call to the off-chain validator
+              try {
+                const offchainVerification = await this.offchainVerifier.verify(hash)
+                if (!verification.issuer) {
+                  // File not found on blockchain
+                  if (offchainVerification) {
+                    Vue.set(this.verificationItems, i, Object.assign(this.verificationItems[i], offchainVerification))
+                  }
+                }
+                if (offchainVerification) {
+                  // If it's already verified on blockchain, do not override all values; just issuerName & address can be taken from off-chain information
+                  if (!this.verificationItems[i].issuerName && offchainVerification.issuerName) {
+                    this.verificationItems[i].issuerName = offchainVerification.issuerName
+                  }
+                  if (!this.verificationItems[i].issuer) {
+                    this.verificationItems[i].issuer = offchainVerification.issuerAddress
+                  }
+                }
+              } catch (e) {
+                Vue.set(this.verificationItems[i], 'offchainError', true)
+                throw e // Rethrow, as we want to catch all exceptions above
+              }
+            }
+          } catch (e) {
+            console.log('An error occurred during hashing & retrieval of information', e)
+            Vue.set(this.verificationItems[i], 'error', e)
+          } finally {
+            Vue.set(this.verificationItems[i], 'loaded', true)
+          }
         })
       } catch (e) {
         console.log(e)
@@ -170,14 +218,13 @@ export default {
             this.demoUnverified()
             break
         }
-
       }
     },
     demoVerified () {
       this.verificationItems = []
       this.verificationItems.unshift({
         'hashed': true,
-        'type': 3,
+        'type': VERIFICATION_TYPES.V_VERIFIED,
         'name': this.$t('verification.demo.doc1Filename'),
         'hash': '0x33e63485a8594ee7d1cfbb418a6f5acf7532faca38aa8a36b23eec8f6a53d179',
         'issuer': '0xD0f6C73Bf87d1A00797A8A1DF2dF0Dad89D2411f',
@@ -192,13 +239,13 @@ export default {
           'blockNumber': 7937331,
           'transactionHash': '0x9b7e8f75ae271d8d659eb7bbd6d090fad3c784f862a5a83368fbc970bfa0a215 ',
           'event': 'FileRegisteredEvent',
-          'signature': '0x98b03391b6b42a1d067881e3d2a22b2091e0412a0e2c40cf687d1c036beb6e11',
+          'signature': '0x98b03391b6b42a1d067881e3d2a22b2091e0412a0e2c40cf687d1c036beb6e11'
         },
         'registrationBlock': {
           'hash': '0x9b7e8f75ae271d8d659eb7bbd6d090fad3c784f862a5a83368fbc970bfa0a215',
-          'timestamp': 1560246087,
+          'timestamp': 1560246087
         },
-        'loaded': true,
+        'loaded': true
       })
 
       VueScrollTo.scrollTo(this.$refs.results, 400)
@@ -214,11 +261,11 @@ export default {
         'issuerVerified': false,
         'revoked': false,
         'expiry': null,
-        'loaded': true,
+        'loaded': true
       })
 
       VueScrollTo.scrollTo(this.$refs.results, 400)
-    },
-  },
+    }
+  }
 }
 </script>

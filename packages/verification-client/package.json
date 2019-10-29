@@ -11,13 +11,19 @@
     "^.+\\.jsx?$": "babel-jest"
   },
   "dependencies": {
-    "web3-eth": "^1.0.0-beta.55",
-    "web3-utils": "^1.0.0-beta.55"
+    "axios": "^0.19.0",
+    "lerna": "^3.0.3",
+    "regenerator-runtime": "^0.13.3",
+    "web3-eth": "^1.2.2",
+    "web3-utils": "^1.2.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.6.3",
     "babel-jest": "^24.8.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
     "jest": "^24.8.0"
   }
 }

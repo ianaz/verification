@@ -32,41 +32,59 @@ import VERIFICATION_TYPES from '../../lib/verification-types'
 import ShadowItem from './ShadowItem'
 import VerificationItemNotFound from './VerificationItemNotFound'
 import VerificationItemRevoked from './VerificationItemRevoked'
+import VerificationItemRevokedUnverified from './VerificationItemRevokedUnverified'
 import VerificationItemUnverifiedIssuer from './VerificationItemUnverifiedIssuer'
 import VerificationItemVerified from './VerificationItemVerified'
+import VerificationItemProcessing from './VerificationItemProcessing'
+import VerificationItemTechnicalProblem from './VerificationItemTechnicalProblem'
 
 export default {
   name: 'verification-item',
   components: {
     ShadowItem,
     VerificationItemRevoked,
+    VerificationItemRevokedUnverified,
     VerificationItemNotFound,
     VerificationItemUnverifiedIssuer,
     VerificationItemVerified,
+    VerificationItemProcessing,
+    VerificationItemTechnicalProblem
   },
   props: {
     verificationItem: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     verificationItemType () {
-      if (this.verificationItem.hashed === undefined || this.verificationItem.hashed === false ||
-        this.verificationItem.issuer === undefined) {
+      if (this.verificationItem && this.verificationItem.error) {
+        return 'VerificationItemTechnicalProblem'
+      }
+      if (this.verificationItem.hashed === undefined || this.verificationItem.hashed === false) {
         return 'ShadowItem'
       }
       switch (this.verificationItem.type) {
         case VERIFICATION_TYPES.V_REVOKED:
-          return 'VerificationItemRevoked'
+          if (this.verificationItem.issuerVerified) {
+            return 'VerificationItemRevoked'
+          }
+          return 'VerificationItemRevokedUnverified'
         case VERIFICATION_TYPES.V_NOT_FOUND:
           return 'VerificationItemNotFound'
         case VERIFICATION_TYPES.V_SELF_DECLARED:
+          if (!this.verificationItem.onBlockchain) {
+            return 'VerificationItemProcessing'
+          }
           return 'VerificationItemUnverifiedIssuer'
         case VERIFICATION_TYPES.V_VERIFIED:
+          if (!this.verificationItem.onBlockchain) {
+            return 'VerificationItemProcessing'
+          }
           return 'VerificationItemVerified'
       }
-    },
-  },
+      return 'VerificationItemTechnicalProblem'
+    }
+  }
 }
 </script>

@@ -31,7 +31,7 @@
  * @property {string} issuerImg
  */
 
-import {Eth} from 'web3-eth'
+import Eth from 'web3-eth'
 import {hexToUtf8, hexToBytes} from 'web3-utils'
 import SmartContractABI from './SmartContract.abi'
 
@@ -47,7 +47,7 @@ export default class Client {
     this.providerUrl = providerUrl
     this.contractAddress = contractAddress
     this.eth = new Eth(this.providerUrl)
-    this.contract = this.eth.Contract(
+    this.contract = new this.eth.Contract(
       SmartContractABI,
       this.contractAddress,
     )

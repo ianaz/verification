@@ -23,7 +23,7 @@
 <template>
 <layout-verification-item :verificationItem="verificationItem">
   <template #icon>
-  <i class="mdi mdi-alert-circle-outline icon-unverified"></i>
+    <i class="icon icon-unverified"></i>
   </template>
   <template #title>{{ $t('verification.result.selfDeclared.status') }}</template>
   <template #description><div v-html="$t('verification.result.selfDeclared.message')"></div></template>

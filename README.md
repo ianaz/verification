@@ -36,8 +36,19 @@ To use it in your application, import it as an ES6 module and use it as a compon
 
     import Verification from '@blockfactory-ag/verification/src/Verification'
     
-
+    `<Verification />`
     
+#### Off-chain check
+If you want to double check, add information, or simply make sure the user gets the correct result even though the block containing your transaction isn't finalized, you can provide an `OffchainVerifierInterface`'s implementation.
+
+The class should only contain the method `verify(fileHash)`. The method should return the attributes you want to override.
+
+For an example on how to do that, check `packages/verification-client/src/CertifactionVerifierExample.js` 
+    
+At that point you can simply pass the verifier to the <Verification /> component like this:
+
+```<Verification v-bind:offchain-verifier="offchainVerifier" />```
+
 #### Script
 Build the tool and integrate it using a script tag just before the closing ``<body>`` tag of your HTML page.
 

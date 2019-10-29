@@ -39,7 +39,7 @@
 
   &.expanded {
     .item-footer {
-      margin-top: -350px;
+      margin-top: -250px;
       height: calc(400px - 1rem);
       padding-top: 1rem;
       position: relative;
@@ -85,20 +85,32 @@
     }
 
     .icon {
-      font-size: 36px;
-      padding-right: $spacer * .75;
-
+      margin-right: $spacer * .55;
+      i {
+        display: block;
+        width: 32px;
+        height: 32px;
+        background-size: cover;
+        img {
+          width: 16px;
+          height: 16px;
+          margin: 0 auto 0 8px;
+        }
+      }
       .icon-not-found {
-        color: #ff4b43;
+        background-image: url('./../img/not-found.png')
       }
       .icon-unverified {
-        color: #2F90FF;
+        background-image: url('./../img/unverified.png')
+      }
+      .icon-progress {
+        background-image: url('./../img/unverified-empty.png')
       }
       .icon-verified {
-        color: #00e05c;
+        background-image: url('./../img/verified.png')
       }
       .icon-revoked {
-        color: #ff4b43;
+        background-image: url('./../img/revoked.png')
       }
     }
   }

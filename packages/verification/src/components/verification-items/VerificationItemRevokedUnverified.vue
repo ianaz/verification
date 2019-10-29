@@ -25,8 +25,8 @@
   <template #icon>
   <i class="icon icon-revoked"></i>
   </template>
-  <template #title>{{ $t('verification.result.revoked.status') }}</template>
-  <template #description><div v-html="$t('verification.result.revoked.message')"></div></template>
+  <template #title>{{ $t('verification.result.revokedUnverified.status') }}</template>
+  <template #description><div v-html="$t('verification.result.revokedUnverified.message')"></div></template>
 </layout-verification-item>
 </template>
 
@@ -34,7 +34,7 @@
 import LayoutVerificationItem from './LayoutVerificationItem'
 
 export default {
-  name: 'VerificationItemRevoked',
+  name: 'VerificationItemRevokedUnverified',
   props: ['verificationItem'],
   components: {
     LayoutVerificationItem,

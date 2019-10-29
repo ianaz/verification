@@ -23,9 +23,10 @@
 <template>
 <layout-verification-item :verificationItem="verificationItem">
   <template #icon>
-  <i class="mdi mdi-shield-check icon-verified"></i>
+    <i class="icon icon-verified"></i>
   </template>
   <template #title>{{ $t('verification.result.verified.status') }}</template>
+  <template #description><div v-html="$t('verification.result.verified.message')"></div></template>
 </layout-verification-item>
 </template>
 
