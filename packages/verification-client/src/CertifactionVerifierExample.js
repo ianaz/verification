@@ -8,16 +8,15 @@ class CertifactionVerifierExample {
             if (res.status === 200) {
                 const data = res.data
                 return {
-                    'onBlockchain': data.on_blockchain,
-                    'issuer': data.issuer_address,
-                    'issuerName': data.user_name,
-                    'issuerVerified': data.issuer_verified,
-                    'revoked': data.revoked
+                    onBlockchain: data.on_blockchain,
+                    issuer: data.issuer_address,
+                    issuerName: data.user_name,
+                    issuerVerified: data.issuer_verified,
+                    revoked: data.revoked
                 }
             }
             throw new Error(`Unexpected status ${res.status}`)
-        }
-        catch (e) {
+        } catch (e) {
             if (e.response.status === 404) {
                 return null
             }

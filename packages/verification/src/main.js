@@ -40,5 +40,5 @@ new Vue({
   el: '#certifaction-verification',
   i18n,
   components: { Verification },
-  template: '<div><Verification /></div>'
+  template: '<Verification />'
 })
